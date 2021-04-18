@@ -2,10 +2,11 @@
   "name": "recipe-webapi-backend",
   "version": "1.0.0",
   "description": "1. npm init 2.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon dist/app.js"
+    "typeorm-cli": "typeorm",
+    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
+    "start": "nodemon --exec ts-node -- ./src/app.ts"
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,11 @@
   "homepage": "https://github.com/tkhn0625/recipe-webapi-backend#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "pg": "^8.6.0",
+    "reflect-metadata": "^0.1.13",
+    "ts-node": "^9.1.1",
+    "typeorm": "^0.2.32"
   },
   "devDependencies": {
     "@types/express": "^4.17.11",
