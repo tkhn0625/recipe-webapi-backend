@@ -4,25 +4,26 @@ import {
   PrimaryGeneratedColumn,
   BaseEntity,
   OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Material } from '../entity/Material';
 import { MainImage } from '../entity/MainImage';
 import { Flow } from '../entity/Flow';
 
-// export interface RecipeType {
-//   name: string;
-//   image: string;
-//   materials: Material[];
-//   flow: string;
-// }
-
 @Entity()
 export class Recipe extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  readonly id!: number;
 
-  @Column()
+  @Column({ readonly: true })
   name!: string;
+
+  @CreateDateColumn({ readonly: true, precision: 0, default: () => 'NOW()' })
+  createdAt?: Date;
+
+  @UpdateDateColumn({ readonly: true, precision: 0, default: () => 'NOW()' })
+  updatedAt?: Date;
 
   @OneToMany((type) => Material, (material) => material.recipe) // これはフォールドでなく、relationを表現しているだけ
   materials!: Material[];
@@ -32,4 +33,11 @@ export class Recipe extends BaseEntity {
 
   @OneToMany((type) => MainImage, (mainImage) => mainImage.recipe) // これはフォールドでなく、relationを表現しているだけ
   mainImages!: MainImage[];
+
+  constructor(properties: RecipeInitializationProperties) {
+    super();
+    Object.assign(this, properties);
+  }
 }
+
+export type RecipeInitializationProperties = Omit<Recipe, 'id'>;

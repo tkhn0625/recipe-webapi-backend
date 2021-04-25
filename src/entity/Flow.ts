@@ -11,7 +11,7 @@ import { Recipe } from '../entity/Recipe';
 @Entity()
 export class Flow extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  readonly id!: number;
 
   @Column()
   flowNum!: number;
@@ -20,12 +20,19 @@ export class Flow extends BaseEntity {
   text!: string;
 
   @Column({ nullable: true, type: 'varchar', width: 64 })
-  imageUrl: string | null;
+  imageUrl!: string | null;
 
-  @Column()
+  @Column({ readonly: true })
   recipeId!: number;
 
   @ManyToOne((type) => Recipe, (recipe) => recipe.flows) // relationを表現しているだけで、fieldとはならない
   @JoinColumn({ name: 'recipeId' }) // recipeIdがforeignキーとなることを表す。
-  recipe!: Recipe;
+  readonly recipe!: Recipe;
+
+  constructor(properties: FlowInitializationProperties) {
+    super();
+    Object.assign(this, properties);
+  }
 }
+
+export type FlowInitializationProperties = Omit<Flow, 'id'>;
