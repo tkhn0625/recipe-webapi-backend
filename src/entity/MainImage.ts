@@ -11,15 +11,22 @@ import { Recipe } from './Recipe';
 @Entity()
 export class MainImage extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  readonly id!: number;
 
-  @Column()
+  @Column({ readonly: true })
   url!: string;
 
-  @Column()
+  @Column({ readonly: true })
   recipeId!: number;
 
   @ManyToOne((type) => Recipe, (recipe) => recipe.mainImages) // relationを表現しているだけで、fieldとはならない
   @JoinColumn({ name: 'recipeId' }) // recipeIdがforeignキーとなることを表す。
-  recipe!: Recipe;
+  readonly recipe?: Recipe;
+
+  constructor(properties: MainImageInitializationProperties) {
+    super();
+    Object.assign(this, properties);
+  }
 }
+
+export type MainImageInitializationProperties = Omit<MainImage, 'id'>;

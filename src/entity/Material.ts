@@ -11,9 +11,9 @@ import { Recipe } from './Recipe';
 @Entity()
 export class Material extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  readonly id!: number;
 
-  @Column()
+  @Column({ readonly: true })
   name!: string;
 
   @Column()
@@ -22,10 +22,17 @@ export class Material extends BaseEntity {
   @Column()
   calorie!: string;
 
-  @Column()
+  @Column({ readonly: true })
   recipeId!: number;
 
   @ManyToOne((type) => Recipe, (recipe) => recipe.materials) // relationを表現しているだけで、fieldとはならない
   @JoinColumn({ name: 'recipeId' }) // recipeIdがforeignキーとなることを表す。
-  recipe!: Recipe;
+  readonly recipe!: Recipe;
+
+  constructor(properties: MaterialInitializationProperties) {
+    super();
+    Object.assign(this, properties);
+  }
 }
+
+export type MaterialInitializationProperties = Omit<Material, 'id'>;
