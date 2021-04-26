@@ -5,14 +5,16 @@ import {
   BaseEntity,
   OneToMany,
 } from 'typeorm';
-import { MaterialImp } from '../entity/Material';
+import { Material } from '../entity/Material';
+import { MainImage } from '../entity/MainImage';
+import { Flow } from '../entity/Flow';
 
-export interface RecipeType {
-  name: string;
-  image: string;
-  materials: MaterialImp[];
-  flow: string;
-}
+// export interface RecipeType {
+//   name: string;
+//   image: string;
+//   materials: Material[];
+//   flow: string;
+// }
 
 @Entity()
 export class Recipe extends BaseEntity {
@@ -20,14 +22,14 @@ export class Recipe extends BaseEntity {
   id: number;
 
   @Column()
-  name: string;
+  name!: string;
 
-  @Column()
-  image: string;
+  @OneToMany((type) => Material, (material) => material.recipe) // これはフォールドでなく、relationを表現しているだけ
+  materials!: Material[];
 
-  @OneToMany((type) => MaterialImp, (material) => material.recipe) // これはフォールドでなく、relationを表現しているだけ
-  materials: MaterialImp[];
+  @OneToMany((type) => Flow, (flow) => flow.recipe) // これはフォールドでなく、relationを表現しているだけ
+  flows!: Flow[];
 
-  @Column()
-  flow: string;
+  @OneToMany((type) => MainImage, (mainImage) => mainImage.recipe) // これはフォールドでなく、relationを表現しているだけ
+  mainImages!: MainImage[];
 }
