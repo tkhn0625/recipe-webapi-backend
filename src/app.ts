@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import express, { Request, Response, NextFunction } from 'express';
 import * as bodyParser from 'body-parser';
 import { createConnection } from 'typeorm';
+import cors from 'cors';
 import { Routes } from './routes/RecipeRoutes';
 
 createConnection()
@@ -24,8 +25,8 @@ createConnection()
           if (result instanceof Promise) {
             result.then((result) =>
               result !== null && result !== undefined
-                ? res.send(result)
-                : undefined
+                ? res.status(200).json(result)
+                : res.status(204).send('Contain null value')
             );
           } else if (result !== null && result !== undefined) {
             res.json(result);
@@ -35,7 +36,22 @@ createConnection()
     });
 
     // setup express app here
-    // ...
+    // options for cors midddleware
+    const options: cors.CorsOptions = {
+      allowedHeaders: [
+        'Origin',
+        'X-Requested-With',
+        'Content-Type',
+        'Accept',
+        'X-Access-Token',
+      ],
+      credentials: true,
+      methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+      origin: 'http://localhost:3000',
+      preflightContinue: false,
+    };
+    //use cors middleware
+    app.use(cors(options));
 
     // start express server
     app.listen(3000);
@@ -45,6 +61,3 @@ createConnection()
     );
   })
   .catch((error) => console.log(error));
-
-// // /recipes へのリクエストは全てrecipeRoutesで処理を行う。
-// app.use('/recipes', recipeRoutes);
