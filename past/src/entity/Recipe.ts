@@ -7,9 +7,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Material } from '../entity/Material';
-import { MainImage } from '../entity/MainImage';
-import { Flow } from '../entity/Flow';
+import { Material } from './Material';
+import { MainImage } from './MainImage';
+import { Flow } from './Flow';
 
 @Entity()
 export class Recipe extends BaseEntity {
