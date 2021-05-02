@@ -5,6 +5,7 @@ import {
   Index,
   ObjectID,
   ObjectIdColumn,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { lowercase } from './ValueTransformers';
@@ -16,8 +17,8 @@ export enum Role {
 
 @Entity()
 export class User {
-  @ObjectIdColumn()
-  public id: ObjectID;
+  @PrimaryGeneratedColumn()
+  public id: string;
 
   @Column()
   public name: string;

@@ -20,7 +20,7 @@ export default {
   jwtSecret: process.env.JWT_SECRET,
 
   /**
-   * MongoDB connection options.
+   * PostgreSQL connection options.
    */
   database: {
     type: process.env.TYPEORM_CONNECTION,
