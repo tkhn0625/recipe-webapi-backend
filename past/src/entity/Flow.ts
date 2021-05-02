@@ -6,7 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Recipe } from '../entity/Recipe';
+import { Recipe } from './Recipe';
 
 @Entity()
 export class Flow extends BaseEntity {

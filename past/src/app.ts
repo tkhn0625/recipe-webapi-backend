@@ -4,6 +4,13 @@ import * as bodyParser from 'body-parser';
 import { createConnection } from 'typeorm';
 import cors from 'cors';
 import { Routes } from './routes/RecipeRoutes';
+import router from './api/routes/v1';
+// import { useContainer as rcUseContainer } from 'routing-controllers';
+import { useContainer as typeOrmUseContainer } from 'typeorm';
+import { Container } from 'typedi';
+
+// rcUseContainer(Container);
+// typeOrmUseContainer(Container);
 
 createConnection()
   .then(async (connection) => {
@@ -13,27 +20,27 @@ createConnection()
     app.use(bodyParser.json());
 
     // register express routes from defined application routes
-    Routes.forEach((route) => {
-      (app as any)[route.method](
-        route.route,
-        (req: Request, res: Response, next: Function) => {
-          const result = new (route.controller as any)()[route.action](
-            req,
-            res,
-            next
-          );
-          if (result instanceof Promise) {
-            result.then((result) =>
-              result !== null && result !== undefined
-                ? res.status(200).json(result)
-                : res.status(204).send('Contain null value')
-            );
-          } else if (result !== null && result !== undefined) {
-            res.json(result);
-          }
-        }
-      );
-    });
+    // Routes.forEach((route) => {
+    //   (app as any)[route.method](
+    //     route.route,
+    //     (req: Request, res: Response, next: Function) => {
+    //       const result = new (route.controller as any)()[route.action](
+    //         req,
+    //         res,
+    //         next
+    //       );
+    //       if (result instanceof Promise) {
+    //         result.then((result) =>
+    //           result !== null && result !== undefined
+    //             ? res.status(200).json(result)
+    //             : res.status(204).send('Contain null value')
+    //         );
+    //       } else if (result !== null && result !== undefined) {
+    //         res.json(result);
+    //       }
+    //     }
+    //   );
+    // });
 
     // setup express app here
     // options for cors midddleware
@@ -52,6 +59,9 @@ createConnection()
     };
     //use cors middleware
     app.use(cors(options));
+
+    // Routes
+    app.use('/v1', router);
 
     // start express server
     app.listen(3000);
