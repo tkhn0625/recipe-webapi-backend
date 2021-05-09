@@ -20,7 +20,7 @@ export default (app) => {
             try {
                 const recipeServiceInstance = Container.get(RecipeService);
                 const result = await recipeServiceInstance.findAll();
-                return res.json(result).status(202);
+                return res.json({ recipes: result }).status(202);
             } catch (e) {
                 console.log(" error ", e);
                 return next(e);
