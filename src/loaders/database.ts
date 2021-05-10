@@ -1,9 +1,12 @@
 import Container from "typedi";
 import { Connection, createConnection, useContainer } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
-import {} from "typeorm/driver/postgres/PostgresDriver";
 import config from "../config";
-import { User } from "../models/User";
+import { User } from "../models/user/User";
+import { Recipe } from "../models/recipe/Recipe";
+import { Flow } from "../models/recipe/Flow";
+import { MainImage } from "../models/recipe/MainImage";
+import { Material } from "../models/recipe/Material";
 
 export default async (): Promise<Connection> => {
     // read connection options from ormconfig file (or ENV variables)
@@ -17,7 +20,14 @@ export default async (): Promise<Connection> => {
         password: config.database.password,
         synchronize: true,
         logging: true,
-        entities: [User],
+
+        /**
+         * @TODO Should set migration step
+         */
+        entities: [User, Recipe, MainImage, Material, Flow],
+        // cli: {
+        //     migrationsDir: "src/models/migration",
+        // },
     };
 
     // typedi + typeorm

@@ -1,7 +1,7 @@
 import { celebrate, Joi } from 'celebrate';
 import { NextFunction, Request, Response, Router } from 'express';
 import { Container } from 'typedi';
-import { User } from '../../../models/User';
+import { User } from '../../../models/user/User';
 import AuthService from '../../../services/auth';
 import middlewares from '../../middlewares';
 

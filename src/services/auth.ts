@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import config from '../config';
 import { Exception } from '../Exception';
-import { User } from '../models/User';
+import { User } from '../models/user/User';
 
 @Service()
 export default class AuthService {
