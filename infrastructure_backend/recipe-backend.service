@@ -1,0 +1,14 @@
+[Unit]
+Description=recipe web application backend
+After=network.target
+
+[Service]
+# EnvironmentFile=/etc/params
+WorkingDirectory=/opt/recipe-backend
+ExecStart=/usr/bin/sh install-run-app.sh
+ExecStop=/bin/kill -s QUIT $MAINPID
+Restart=on-failure
+
+[Install]
+RequiredBy=network.target
+WantedBy=multi-user.target
